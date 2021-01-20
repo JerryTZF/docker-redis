@@ -1,0 +1,33 @@
+version: "3.5"
+
+services:
+  redis-2:
+    image: redis:latest
+    container_name: redis-2
+    restart: always
+    ports:
+      - "6372:6379"
+    networks:
+      - proxy
+    volumes:
+      - $PWD/conf2/redis.conf:/usr/local/etc/redis/redis.conf:rw
+      - $PWD/data2:/data:rw
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  redis-3:
+    image: redis:latest
+    container_name: redis-3
+    restart: always
+    ports:
+      - "6373:6379"
+    networks:
+      - proxy
+    volumes:
+      - $PWD/conf3/redis.conf:/usr/local/etc/redis/redis.conf:rw
+      - $PWD/data3:/data:rw
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+# 加入已有网络
+networks:
+  proxy:
+    external: true
